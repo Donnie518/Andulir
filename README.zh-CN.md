@@ -1,15 +1,15 @@
 # Andulir
 
-一款极简,协同的接口自动化测试工具,面向 SpringBoot 和 Spring Cloud ,为小型开发团队和个人开发者准备。
+一款极简,协同的接口自动化测试工具,面向 `SpringBoot` 和 `Spring Cloud` ,为小型开发团队和个人开发者准备。
 
-通过Andulir,你可以:
+通过`Andulir`,你可以:
 - 方便的使用注解标记你想要进行测试的接口
 - 在本地启动项目后使用其自动的生成数据进行测试
 - 在控制台上看到相应的测试结果。
 
-Andulir将会通过一个  atest.xml 管理所有的测试用例,如果你对测试的结果不太满意,可以在文件中对其进行修改,再修改后再次运行项目时仍然会对之前的用例进行测试.
+`Andulir`将会通过一个  `atest.xml` 管理所有的测试用例,如果你对测试的结果不太满意,可以在文件中对其进行修改,再修改后再次运行项目时仍然会对之前的用例进行测试.
 
-当对一个接口测试完成之后，你可以修改其在 xml 中的 tag，让框架忽略此用例，还可以将这个文件在 git 等版本管理工具中与源代码文件一同管理，以便于与你的开发伙伴，甚至是前端的对接人员很方便的共享这些接口的测试用例，大大减少开发中测试和沟通的成本。
+当对一个接口测试完成之后，你可以修改其在 `xml` 中的 `tag`，让框架忽略此用例，还可以将这个文件在 `git` 等版本管理工具中与源代码文件一同管理，以便于与你的开发伙伴，甚至是前端的对接人员很方便的共享这些接口的测试用例，大大减少开发中测试和沟通的成本。
 
 当项目发布到生产服务器之前，将会对所有开发人员共同管理的所有用例进行统一测试，从而构成CI/CD中的重要一环。
 
@@ -19,41 +19,41 @@ Andulir将会通过一个  atest.xml 管理所有的测试用例,如果你对测
 
 在项目根目录内，进行拉取：
 
-bash
+```bash
 git clone https://github.com/Werun-backend/Andulir.git
-
+```
 
 IDEA里设为模块的方式：
 1. File -> New -> Module From Existing Souces
-2. 然后在Select File or Dictionary to import 窗口 **选择 andulir.iml 文件（很重要）**
+2. 然后在Select File or Dictionary to import 窗口 **选择 `andulir.iml` 文件（很重要）**
 3. 刷新 Maven 导入 Andulir 需要的依赖。（这里 Andulir 应该和其他项目是并列关系）
 
-最后，在需要使用的模块里通过 pom.xml导入：
+最后，在需要使用的模块里通过 `pom.xml`导入：
 
-xml
+```xml
 <dependency>
     <groupId>org.andulir</groupId>
     <artifactId>andulir</artifactId>
     <version>0.0.1</version>
 </dependency>
-
+```
 
 ## 1.2 配置：
 
-Andulir主打的就是一个极简测试，所以我们尽量把所需的配置降到最低，唯一需要配置的地方是在项目的 application.yml ,配置项目位置及 controller包所在的位置，从而确定接口扫描的范围：
+Andulir主打的就是一个极简测试，所以我们尽量把所需的配置降到最低，唯一需要配置的地方是在项目的 `application.yml` ,配置项目位置及 `controller`包所在的位置，从而确定接口扫描的范围：
 
-yaml
+```yaml
 andulir:
   scan-package: org.andulir.controller
-
+```
 
 ## 1.3 使用:
 
 ### 1.3.1 增加注解:
 
-整个工具只需要一个@ATest注解便可完成所有的功能,你可以使用此注解在 Controller 层接口方法上标记你希望测试的方法,并为其设置用例的个数:
+整个工具只需要一个`@ATest`注解便可完成所有的功能,你可以使用此注解在 `Controller` 层接口方法上标记你希望测试的方法,并为其设置用例的个数:
 
-java
+```java
 @RestController
 public class TestController {
   @ATest(2)
@@ -62,14 +62,15 @@ public class TestController {
   }
 }
 
+```
 
 ### 1.3.2 启动项目
 
-当对接口进行足够的标记后,便可以启动 Andulir。
+当对接口进行足够的标记后,便可以启动 `Andulir`。
 
-启动方法：在main方法里直接调用 AndulirApplication.start() 方法。
+启动方法：在main方法里直接调用 `AndulirApplication.start()` 方法。
 
-java
+```java
 import org.andulir.AndulirApplication;
 
 public class ExampleControllerTest {
@@ -77,13 +78,13 @@ public class ExampleControllerTest {
         AndulirApplication.start(args);
     }
 }
-
+```
 
 ### 1.3.3 atest.xml
 
-启动后,你就可以在项目的目录下找到一个名为 atest.xml 的文件.(如果不存在会自动生成),并会根据带注解的方法的相关信息生成如下格式的xml文件:
+启动后,你就可以在项目的目录下找到一个名为 `atest.xml` 的文件.(如果不存在会自动生成),并会根据带注解的方法的相关信息生成如下格式的xml文件:
 
-xml
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
 <aTest>
@@ -136,22 +137,22 @@ xml
         </methodMapping>
     </controllerMapping>
 </aTest>
+```
 
+- `aTest`是xml文件的主标签
+- `controllerMapping`表征方法属于哪个Controller类
+  - `name`为类的名称(全限定名)
+- `methodMapping` 表征方法的具体信息
+  - `name`是方法的名称
+  - `status`是方法的状态,方法状态借鉴了git中分支合并的相关概念,当方法首次生成时,status为1(未关闭),当方法调试完成之后,手动的设置方法的status为0(已关闭).如果手动设置status大于1,就会进行status次测试
+- `parameterMapping`表征方法的参数
+- `typeMapping` 表征参数的类型,此标签的个数取决于参数的个数.
+  - `name`为参数的类型(全限定名)
+  - `value`为生成的随机测试用例
+- `attributeMapping`表征方法参数的类属性
+- `genericsMapping`表征`List`等类型的泛型
 
-- aTest是xml文件的主标签
-- controllerMapping表征方法属于哪个Controller类
-  - name为类的名称(全限定名)
-- methodMapping 表征方法的具体信息
-  - name是方法的名称
-  - status是方法的状态,方法状态借鉴了git中分支合并的相关概念,当方法首次生成时,status为1(未关闭),当方法调试完成之后,手动的设置方法的status为0(已关闭).如果手动设置status大于1,就会进行status次测试
-- parameterMapping表征方法的参数
-- typeMapping 表征参数的类型,此标签的个数取决于参数的个数.
-  - name为参数的类型(全限定名)
-  - value为生成的随机测试用例
-- attributeMapping表征方法参数的类属性
-- genericsMapping表征List等类型的泛型
-
-项目启动的时候扫描加了ATest注解的controller方法，并且根据注解的status属性的值生成随机测试用例
+项目启动的时候扫描加了`ATest`注解的controller方法，并且根据注解的status属性的值生成随机测试用例
 ![img.png](img.png)
 当项目第一次启动的时候,不仅仅会生成文件,还会对status为1的方法进行一次测试,并把相关的测试结果输出到控制台:
 ![QQ截图20231106110500](http://bearsblog.oss-cn-beijing.aliyuncs.com/img/QQ截图20231106110500.png)
@@ -199,11 +200,11 @@ Andulir主要由三部分组成:数据解析器,数据生成器,数据测试器,
 至于项目的自启动运行,是通过实现CommandLineRunner,并覆写run方法,从而做到在所有的bean都生成之后再开始操作.
 
 ## 2.4 其他
-AndulirConfig文件手动注入了程序需要的一些bean
+`AndulirConfig`文件手动注入了程序需要的一些bean
 
-AndulirProperty文件支持配置文件的配置
+`AndulirProperty`文件支持配置文件的配置
 
-util包中存放着程序需要使用的一些工具类
+`util`包中存放着程序需要使用的一些工具类
 
 # 3.拓展:
 
