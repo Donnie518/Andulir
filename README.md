@@ -1,7 +1,3 @@
-Here's an English version of the `README.md` file for your project, "Andulir":
-
----
-
 # Andulir
 
 **Andulir** is a minimalistic, collaborative API automation testing tool designed for `Spring Boot` and `Spring Cloud`. It is tailored for small development teams and individual developers, aiming to streamline the API testing process.
