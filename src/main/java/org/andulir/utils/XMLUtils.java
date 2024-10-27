@@ -91,7 +91,7 @@ public class XMLUtils {
         return controllerMapping;
     }
     public static Element initXmlFile(Document document,File file) {
-
+        //若已存在xml文件则不创建
         if (file.exists()) {
             log.info("atest.xml文件已存在!");
             return null;
