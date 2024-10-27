@@ -20,12 +20,7 @@
 在项目根目录内，进行拉取：
 
 ```bash
-# 原仓库
-git clone https://github.com/bearslyricattack/Andulir.git
-# Donnie 的fork仓库
-git clone https://github.com/Donnie518/Andulir.git
-# Xiangyinfly的fork仓库
-git clone https://github.com/Xiangyinfly/Andulir.git
+git clone https://github.com/Werun-backend/Andulir.git
 ```
 
 IDEA里设为模块的方式：
