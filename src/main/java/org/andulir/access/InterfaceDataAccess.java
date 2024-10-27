@@ -108,8 +108,10 @@ public class InterfaceDataAccess {
                                 }
                                 args[count++] = arg;
                             } catch (ClassNotFoundException e) {
+                                //抛出方法测试系统异常
                                 throw new AndulirSystemException(controllerName + "类中" + methodName + "方法测试出现异常！" + e.getMessage());
                             } catch (JsonProcessingException e) {
+                                //方法的随机测试用例反序列化过程出现异常
                                 throw new AndulirSystemException(controllerName + "类中" + methodName + "方法的随机测试用例反序列化过程出现异常！" + e.getMessage());
                             }
                             //利用反射来测试
@@ -121,6 +123,7 @@ public class InterfaceDataAccess {
                                 Object result = invokedMethod.invoke(controllerInstance, args);
                                 log.info("{}类中的{}方法第{}次测试完毕，测试结果为{}", controllerName, methodName, i + 1, result);
                             } catch (IllegalAccessException | InvocationTargetException e) {
+                                //方法的反射调用出现异常
                                 throw new AndulirSystemException(controllerName + "类中" + methodName + "方法的反射调用出现异常！" + e.getMessage());
                             }
                         }

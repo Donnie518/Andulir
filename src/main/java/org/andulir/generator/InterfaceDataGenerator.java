@@ -68,8 +68,10 @@ public class InterfaceDataGenerator {
                                     value = requestDataGenerator.generateRandomData(typeName, typeMapping);
                                 }
                             } catch (ClassNotFoundException e) {
+                                //方法生成随机测试用例出现异常
                                 throw new AndulirSystemException(controllerName + "类中" + name + "方法生成随机测试用例出现异常！" + e.getMessage());
                             } catch (JsonProcessingException e) {
+                                //方法的随机测试用例序列化过程出现异常
                                 throw new AndulirSystemException(controllerName + "类中" + name + "方法的随机测试用例序列化过程出现异常！" + e.getMessage());
                             }
 
