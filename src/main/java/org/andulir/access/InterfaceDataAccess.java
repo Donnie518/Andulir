@@ -31,7 +31,7 @@ public class InterfaceDataAccess {
     private ApplicationContext applicationContext;
 
     public void testMethod() {
-        //得到xml根节点
+        // 得到xml根节点：
         Element rootElement = document.getRootElement();
         List<Element> controllerMappings = rootElement.elements("controllerMapping");
         //遍历controllerMapping节点
