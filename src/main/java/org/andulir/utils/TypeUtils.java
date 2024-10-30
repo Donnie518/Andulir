@@ -37,7 +37,7 @@ public class TypeUtils {
         return isBasicType(aClass);
     }
 
-    // Class.forName不适用于基本数据类型
+    // Class.forName不是很适用于基本数据类型
     public static String switchToPackageClass(String typeName) {
         switch (typeName) {
             case "int":
