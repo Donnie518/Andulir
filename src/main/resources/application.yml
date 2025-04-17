@@ -8,4 +8,4 @@ andulir:
     keep-alive-time: 10
     max-size: 200
   file:
-    path-setting: root
+    path-setting: work
