@@ -4,14 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.andulir.exception.AndulirSystemException;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -22,6 +26,8 @@ public class InterfaceDataAccess {
     @Autowired
     private Document document;
     @Autowired
+    private File file;
+    @Autowired
     private BasicDataAccess basicDataAccess;
     @Autowired
     private ListDataAccess listDataAccess;
@@ -30,7 +36,12 @@ public class InterfaceDataAccess {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public void testMethod() {
+    public void testMethod() throws DocumentException {
+        //如果document是null
+        if(document.getName()==null){
+            SAXReader reader = new SAXReader();
+            document = reader.read(file);
+        }
         // 得到xml根节点：
         Element rootElement = document.getRootElement();
         List<Element> controllerMappings = rootElement.elements("controllerMapping");
@@ -40,6 +51,7 @@ public class InterfaceDataAccess {
             String[] split = controllerName.split("\\.");
 
             String simpleControllerName = split[split.length - 1];
+            //spring自动转换成了头字母小写的bean BasicController=>basicController
             String controllerName1 = Character.toLowerCase(simpleControllerName.charAt(0)) + simpleControllerName.substring(1);
             Object controllerInstance = applicationContext.getBean(controllerName1);
             Class<?> controller = controllerInstance.getClass();

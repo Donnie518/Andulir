@@ -6,7 +6,9 @@ import org.andulir.exception.AndulirSystemException;
 import org.andulir.utils.TypeUtils;
 import org.andulir.utils.XMLUtils;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -86,9 +88,10 @@ public class InterfaceDataParser {
         }
     }
 
-    public boolean initXML() {
+    public boolean initXML(){
+        boolean isNewFile = !file.exists();
         root = XMLUtils.initXmlFile(document,file);
-        return root != null;
+        return isNewFile; // 返回true表示文件是新建的
     }
 
 

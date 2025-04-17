@@ -51,6 +51,8 @@ public class InterfaceDataGenerator {
                 List<CompletableFuture> futures = new ArrayList<>();
                 for (Element typeMapping : typeMappings) {
                     CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                    //debug
+//                    Runnable task = (() -> {
                         String value = null;
                         String typeName = typeMapping.element("name").getText();
 

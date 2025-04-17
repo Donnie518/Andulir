@@ -1,5 +1,8 @@
 package org.andulir.config;
 
+import org.andulir.access.InterfaceDataAccess;
+import org.andulir.generator.InterfaceDataGenerator;
+import org.andulir.parser.InterfaceDataParser;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +44,7 @@ public class AndulirConfig {
         // Get the current date and time
         LocalDateTime now = LocalDateTime.now();
         // Create a date-time formatter
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         // Format the current date and time as a string
         String formattedDateTime = now.format(formatter);
 
@@ -64,7 +67,7 @@ public class AndulirConfig {
         }
 
         path = path + formattedDateTime
-                + (property.getFilename() != null ? property.getFilename() : "_atest.xml");
+                + (property.getFilename() != null ? property.getFilename() : "_atest") + ".xml";
         return new File(path);
     }
 
@@ -80,4 +83,5 @@ public class AndulirConfig {
                 new ThreadPoolExecutor.AbortPolicy()
         );
     }
+
 }

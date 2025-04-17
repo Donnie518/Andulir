@@ -44,10 +44,15 @@ Andulir主打的就是一个极简测试，所以我们尽量把所需的配置�
 
 - 配置项目位置及 `controller`包所在的位置，从而确定接口扫描的范围
 - 配置 xml 文件的生成位置，root表示生成在项目根目录
+- 配置线程相关属性
 
 ```yaml
 andulir:
-  scan-package: org.andulir.controller
+  scan-package: org.andulir.controller #your controller package
+  thread:
+    core-size: 20
+    keep-alive-time: 10
+    max-size: 200
   file:
     path-setting: root # 若不填，则为手动设置
     path:              # 可选，填写绝对路径
@@ -76,15 +81,23 @@ public class TestController {
 
 当对接口进行足够的标记后,便可以启动 `Andulir`。
 
-启动方法：在main方法里直接调用 `AndulirApplication.start()` 方法。
+启动方法：在main方法里调用initializerService的initialize()
 
 ```java
-import org.andulir.AndulirApplication;
+@SpringBootApplication(scanBasePackages = {"com.msb.demo01", "org.andulir"})
+public class Demo01Application {
 
-public class ExampleControllerTest {
-    public static void main(String[] args) {
-        AndulirApplication.start(args);
-    }
+  @Autowired
+  private InitializerService initializerService;
+
+  public static void main(String[] args) {
+    SpringApplication.run(Demo01Application.class, args);
+  }
+
+  @EventListener(ContextRefreshedEvent.class)
+  public void onApplicationStart(){
+    initializerService.initialize();
+  }
 }
 ```
 

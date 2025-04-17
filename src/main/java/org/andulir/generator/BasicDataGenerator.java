@@ -20,7 +20,9 @@ public class BasicDataGenerator implements DataGenerator {
     @Override
     public String generateRandomData(String typeName, Element typeMapping) throws ClassNotFoundException, JsonProcessingException {
         try {
-            typeName = TypeUtils.switchToPackageClass(typeName);
+            if(!(typeName.startsWith("java.lang."))){
+                typeName = TypeUtils.switchToPackageClass(typeName);
+            }
             Class<?> clazz = Class.forName(typeName);
             Object value = podamFactory.manufacturePojo(clazz);
             return objectMapper.writeValueAsString(value);
