@@ -45,7 +45,9 @@ public class TypeUtils {
      * @return 如果是基本数据类型，返回true；否则返回false
      */
     public static boolean isBasicType(String typeName) {
-        typeName = switchToPackageClass(typeName);
+        if(!(typeName.contains("."))){
+            typeName = switchToPackageClass(typeName);
+        }
         Class<?> aClass = null;
         try {
             aClass = Class.forName(typeName);
@@ -88,6 +90,9 @@ public class TypeUtils {
                 break;
             case "boolean":
                 typeName = "java.lang.Boolean";
+                break;
+            case "string":
+                typeName = "java.lang.String";
                 break;
             default:
                 break;

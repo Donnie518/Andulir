@@ -50,14 +50,19 @@ Andulir focuses on a minimalist testing approach, so we aim to minimize the requ
 
 - Configure the project location and the location of the `controller` package to determine the scope of interface scanning.
 - Configure the generation location of the XML file; "root" indicates it will be generated in the project root directory.
+- Configure the param of thread
 
 ```yaml
 andulir:
-  scan-package: org.andulir.controller
+  scan-package: org.andulir.controller #your controller package
+  thread:
+    core-size: 20
+    keep-alive-time: 10
+    max-size: 200
   file:
     path-setting: root # If not filled, it will be manually set
     path:              # Optional, fill in the absolute path
-    filename:          # Optional
+    filename:          # Optional (no need to add .xml)
 ```
 
 
@@ -79,14 +84,24 @@ public class TestController {
 
 #### 1.3.2 Running Andulir
 
-After marking enough APIs, you can start **Andulir** by calling `AndulirApplication.start()` in the `main` method:
+After marking enough APIs, you can start **Andulir** by calling method initialize() of InitializerService in the `main` method:
 
 ```java
 import org.andulir.AndulirApplication;
 
-public class ExampleControllerTest {
+@SpringBootApplication(scanBasePackages = {"com.msb.demo01", "org.andulir"})
+public class Demo01Application {
+
+    @Autowired
+    private InitializerService initializerService;
+
     public static void main(String[] args) {
-        AndulirApplication.start(args);
+        SpringApplication.run(Demo01Application.class, args);
+    }
+
+    @EventListener(ContextRefreshedEvent.class)
+    public void onApplicationStart(){
+        initializerService.initialize();
     }
 }
 ```

@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -112,7 +115,20 @@ public class XMLUtils {
         //若已存在xml文件则不创建
         if (file.exists()) {
             log.info("atest.xml文件已存在!");
-            return null;
+            try {
+                SAXReader reader = new SAXReader();
+                Document existingDoc = reader.read(file);
+                Element rootElement = existingDoc.getRootElement();
+//                documentHolder.setDocument(existingDoc);
+//                //将文件内容写入document
+//                writeXML(document,file);
+                log.info("atest.xml文件已存在，成功加载根元素: {}", rootElement.getName());
+                return rootElement;
+            } catch (Exception e) {
+                log.error("解析现有XML文件失败: {}", file.getAbsolutePath(), e);
+                throw new RuntimeException("无法解析XML文件: " + file.getAbsolutePath(), e);
+            }
+//            return null;
         }
         Element rootElement = document.addElement("aTest");
         writeXML(document,file);
